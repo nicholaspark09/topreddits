@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+def apiFile = file("api.properties")
+def apiProps = new Properties()
+if (apiFile.exists()) {
+    apiProps.load(new FileInputStream(apiFile))
+}
+
+android {
+    compileSdkVersion buildVersions.compileSdk
+    buildToolsVersion buildVersions.buildTools
+    defaultConfig {
+        applicationId "com.example.vn008xw.reddit"
+        minSdkVersion buildVersions.minSdk
+        targetSdkVersion buildVersions.targetSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'ENDPOINT', apiProps['REDDIT_URL']
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation(
+            deps.support.appcompat,
+            deps.support.design,
+            deps.support.constraintLayout,
+            deps.dagger.android,
+            deps.dagger.support,
+            deps.dagger.base,
+            deps.retrofit.base,
+            deps.retrofit.gson,
+            deps.retrofit.rxadapter,
+            deps.rxjava
+    )
+    testImplementation deps.unitTest.junit
+    androidTestImplementation ('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+}

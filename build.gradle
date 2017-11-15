@@ -1,0 +1,66 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.1.3-2'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0-beta6'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+/**
+ * Defines the build versions for the app
+ */
+ext.buildVersions = [
+        'minSdk'         : 19,
+        'targetSdk'      : 26,
+        'compileSdk'     : 26,
+        'buildTools'     : "26.0.2",
+        'supportLib'     : "26.1.0",
+        'daggerVersion'  : '2.11',
+        'retrofitVersion': '2.3.0',
+        'rxjava'         : '2.0.1'
+]
+
+/**
+ * Defines the dependencies for the app
+ */
+ext.deps = [
+        'support' : [
+                'appcompat'       : "com.android.support:appcompat-v7:$buildVersions.supportLib",
+                'design'          : "com.android.support:design:$buildVersions.supportLib",
+                'constraintLayout': 'com.android.support.constraint:constraint-layout:1.0.2'
+        ],
+        'dagger'  : [
+                'android': "com.google.dagger:dagger-android:$buildVersions.daggerVersion",
+                'support': "com.google.dagger:dagger-android-support:$buildVersions.daggerVersion",
+                'base'   : "com.google.dagger:dagger:$buildVersions.daggerVersion"
+        ],
+        'retrofit': [
+                'base'     : "com.squareup.retrofit2:retrofit:$buildVersions.retrofitVersion",
+                'gson'     : "com.squareup.retrofit2:converter-gson:$buildVersions.retrofitVersion",
+                'rxadapter': "com.squareup.retrofit2:adapter-rxjava2:$buildVersions.retrofitVersion"
+        ],
+        'rxjava'  : "io.reactivex.rxjava2:rxandroid:$buildVersions.rxjava",
+        'unitTest': [
+                'junit': 'junit:junit:4.12'
+        ]
+]
