@@ -50,9 +50,11 @@ ext.deps = [
                 'constraintLayout': 'com.android.support.constraint:constraint-layout:1.0.2'
         ],
         'dagger'  : [
-                'android': "com.google.dagger:dagger-android:$buildVersions.daggerVersion",
-                'support': "com.google.dagger:dagger-android-support:$buildVersions.daggerVersion",
-                'base'   : "com.google.dagger:dagger:$buildVersions.daggerVersion"
+                'android'         : "com.google.dagger:dagger-android:$buildVersions.daggerVersion",
+                'support'         : "com.google.dagger:dagger-android-support:$buildVersions.daggerVersion",
+                'base'            : "com.google.dagger:dagger:$buildVersions.daggerVersion",
+                'androidProcessor': "com.google.dagger:dagger-android-processor:$buildVersions.daggerVersion",
+                'compiler'        : "com.google.dagger:dagger-compiler:$buildVersions.daggerVersion"
         ],
         'retrofit': [
                 'base'     : "com.squareup.retrofit2:retrofit:$buildVersions.retrofitVersion",
@@ -60,6 +62,7 @@ ext.deps = [
                 'rxadapter': "com.squareup.retrofit2:adapter-rxjava2:$buildVersions.retrofitVersion"
         ],
         'rxjava'  : "io.reactivex.rxjava2:rxandroid:$buildVersions.rxjava",
+        'glide'   : 'com.github.bumptech.glide:glide:4.0.0',
         'unitTest': [
                 'junit': 'junit:junit:4.12'
         ]

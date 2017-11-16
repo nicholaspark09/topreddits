@@ -1,20 +1,22 @@
 package com.example.vn008xw.reddit.ui.base
 
+import android.support.annotation.VisibleForTesting
 import io.reactivex.disposables.CompositeDisposable
 
+open class BasePresenter<T : BaseView> : BasePresenterContract<T> {
 
-class BasePresenter<T : BaseView> : BasePresenterContract<T> {
+  @VisibleForTesting
+  val mDisposable = CompositeDisposable()
 
-  var compositeDisposable = CompositeDisposable()
-
-  var view: T? = null
+  @VisibleForTesting
+  var mView: T? = null
 
   override fun attachView(view: T) {
-    this.view = view
+    mView = view
   }
 
   override fun removeView() {
-    compositeDisposable.clear()
-    view = null
+    mDisposable.clear()
+    mView = null
   }
 }

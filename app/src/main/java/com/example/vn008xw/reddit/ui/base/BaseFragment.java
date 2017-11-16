@@ -10,17 +10,22 @@ import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
 
-public abstract class BaseFragment<T extends BasePresenter> extends DaggerFragment implements BaseView {
+public abstract class BaseFragment<T extends BasePresenterContract>
+        extends DaggerFragment
+        implements BaseView {
 
     @Inject
     T mPresenter;
+
+    public T getPresenter() {
+        return mPresenter;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.attachView(this);
     }
-
 
     @Override
     public void onDetach() {
