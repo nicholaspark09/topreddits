@@ -49,7 +49,11 @@ dependencies {
             deps.retrofit.base,
             deps.retrofit.gson,
             deps.retrofit.rxadapter,
-            deps.rxjava,
+            deps.rxjava.java,
+            deps.rxjava.android,
+            deps.stetho,
+            deps.okhttp.logging,
+            deps.timber,
             deps.glide
     )
     implementation 'com.android.support:support-v4:26.1.0'

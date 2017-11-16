@@ -1,7 +1,6 @@
 package com.example.vn008xw.reddit.ui.base;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.content.Context;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,8 +21,8 @@ public abstract class BaseFragment<T extends BasePresenterContract>
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         mPresenter.attachView(this);
     }
 

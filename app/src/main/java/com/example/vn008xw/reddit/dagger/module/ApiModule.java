@@ -6,6 +6,7 @@ import com.example.vn008xw.reddit.BuildConfig;
 import com.example.vn008xw.reddit.dagger.AppScope;
 import com.example.vn008xw.reddit.data.api.RedditService;
 import com.example.vn008xw.reddit.util.DaggerUtil;
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -17,9 +18,11 @@ import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 @Module
 public final class ApiModule {
@@ -41,11 +44,24 @@ public final class ApiModule {
 
     @Provides
     @AppScope
-    OkHttpClient provideOkHttpClient(Cache cache) {
+    HttpLoggingInterceptor provideLoggingInterceptor() {
+        if (BuildConfig.DEBUG) {
+            return DaggerUtil.track(new HttpLoggingInterceptor(Timber::d)
+                    .setLevel(HttpLoggingInterceptor.Level.BODY));
+        }
+        return DaggerUtil.track(new HttpLoggingInterceptor(Timber::d)
+                .setLevel(HttpLoggingInterceptor.Level.BASIC));
+    }
+
+    @Provides
+    @AppScope
+    OkHttpClient provideOkHttpClient(Cache cache, HttpLoggingInterceptor interceptor) {
         final OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .cache(cache)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
+                .addNetworkInterceptor(interceptor)
+                .addNetworkInterceptor(new StethoInterceptor())
                 .writeTimeout(30, TimeUnit.SECONDS);
         return DaggerUtil.track(builder.build());
     }
@@ -63,11 +79,10 @@ public final class ApiModule {
                              OkHttpClient okHttpClient,
                              @Named("Endpoint") String endPoint) {
         return DaggerUtil.track(
-                new Retrofit.Builder()
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .baseUrl(endPoint)
-                .client(okHttpClient)
+                new Retrofit.Builder().client(okHttpClient)
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .baseUrl(endPoint)
                         .build()
         );
     }

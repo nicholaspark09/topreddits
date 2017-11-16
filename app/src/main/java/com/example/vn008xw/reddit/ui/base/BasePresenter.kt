@@ -6,17 +6,17 @@ import io.reactivex.disposables.CompositeDisposable
 open class BasePresenter<T : BaseView> : BasePresenterContract<T> {
 
   @VisibleForTesting
-  val mDisposable = CompositeDisposable()
+  val disposable = CompositeDisposable()
 
   @VisibleForTesting
-  var mView: T? = null
+  var view: T? = null
 
-  override fun attachView(view: T) {
-    mView = view
+  override fun attachView(v: T) {
+    view = v
   }
 
   override fun removeView() {
-    mDisposable.clear()
-    mView = null
+    disposable.clear()
+    view = null
   }
 }
