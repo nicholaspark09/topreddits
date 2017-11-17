@@ -1,10 +1,10 @@
 package com.example.vn008xw.reddit.ui.best;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +12,20 @@ import android.view.ViewGroup;
 import com.example.vn008xw.reddit.data.vo.RedditDataChild;
 import com.example.vn008xw.reddit.databinding.FragmentBestBinding;
 import com.example.vn008xw.reddit.ui.base.BaseFragment;
+import com.example.vn008xw.reddit.util.ItemDecorationUtil;
 
 import java.util.List;
 
-/**
- * Created by vn008xw on 11/17/17.
- */
-
-public class BestFragment extends BaseFragment<BestContract.Presenter>
-        implements BestContract.View {
+public class BestRedditsFragment extends BaseFragment<BestRedditsContract.Presenter>
+        implements BestRedditsContract.View {
 
     @Nullable
     private FragmentBestBinding mBinding;
     @Nullable
     private RedditListAdapter mAdapter;
 
-    public static BestFragment newInstance() {
-        return new BestFragment();
+    public static BestRedditsFragment newInstance() {
+        return new BestRedditsFragment();
     }
 
     @Nullable
@@ -40,7 +37,6 @@ public class BestFragment extends BaseFragment<BestContract.Presenter>
         return mBinding.getRoot();
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -48,7 +44,16 @@ public class BestFragment extends BaseFragment<BestContract.Presenter>
             getPresenter().openImage(url);
         });
         mBinding.recyclerView.setAdapter(mAdapter);
-        getPresenter().getPosts("");
+        ItemDecorationUtil.setStandardDecoration(mBinding.recyclerView);
+        mBinding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (isLastItemVisible(recyclerView) && (dy > 0)) {
+                    getPresenter().getNextGroupOfPosts();
+                }
+            }
+        });
+        getPresenter().getNextGroupOfPosts();
     }
 
     @Override
@@ -66,5 +71,10 @@ public class BestFragment extends BaseFragment<BestContract.Presenter>
     @Override
     public void showImage(@NonNull String thumbnail) {
 
+    }
+
+    private boolean isLastItemVisible(@NonNull RecyclerView recyclerView) {
+        final LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        return manager.findLastVisibleItemPosition() == recyclerView.getAdapter().getItemCount() - 1;
     }
 }

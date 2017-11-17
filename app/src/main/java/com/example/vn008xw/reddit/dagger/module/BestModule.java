@@ -1,8 +1,8 @@
 package com.example.vn008xw.reddit.dagger.module;
 
-import com.example.vn008xw.reddit.ui.best.BestContract;
-import com.example.vn008xw.reddit.ui.best.BestFragment;
-import com.example.vn008xw.reddit.ui.best.BestPresenter;
+import com.example.vn008xw.reddit.ui.best.BestRedditsContract;
+import com.example.vn008xw.reddit.ui.best.BestRedditsFragment;
+import com.example.vn008xw.reddit.ui.best.BestRedditsPresenter;
 
 import dagger.Binds;
 import dagger.Module;
@@ -12,8 +12,8 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class BestModule {
 
     @ContributesAndroidInjector
-    abstract BestFragment bestFragment();
+    abstract BestRedditsFragment bestFragment();
 
     @Binds
-    public abstract BestContract.Presenter providesBestPresenter(BestPresenter bestPresenter);
+    public abstract BestRedditsContract.Presenter providesBestPresenter(BestRedditsPresenter bestRedditsPresenter);
 }

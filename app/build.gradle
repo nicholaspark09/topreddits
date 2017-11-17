@@ -40,6 +40,7 @@ dependencies {
     implementation(
             deps.support.appcompat,
             deps.support.design,
+            deps.support.cardView,
             deps.support.constraintLayout,
             deps.dagger.android,
             deps.dagger.support,
@@ -55,6 +56,7 @@ dependencies {
             deps.glide
     )
     implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation deps.unitTest.junit
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'

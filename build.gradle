@@ -49,6 +49,7 @@ ext.deps = [
         'support' : [
                 'appcompat'       : "com.android.support:appcompat-v7:$buildVersions.supportLib",
                 'design'          : "com.android.support:design:$buildVersions.supportLib",
+                'cardView'        : "com.android.support:cardview-v7:$buildVersions.supportLib",
                 'constraintLayout': 'com.android.support.constraint:constraint-layout:1.0.2'
         ],
         'dagger'  : [

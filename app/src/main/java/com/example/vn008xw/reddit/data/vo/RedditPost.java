@@ -61,7 +61,7 @@ public class RedditPost {
     @SerializedName("stickied")
     private Boolean stickied;
     @SerializedName("created")
-    private Integer created;
+    private Long created;
     @SerializedName("url")
     private String url;
     @SerializedName("author_flair_text")
@@ -69,7 +69,7 @@ public class RedditPost {
     @SerializedName("title")
     private String title;
     @SerializedName("created_utc")
-    private Integer createdUtc;
+    private Long createdUtc;
     @SerializedName("ups")
     private Integer ups;
     @SerializedName("num_comments")
@@ -303,11 +303,11 @@ public class RedditPost {
         this.stickied = stickied;
     }
 
-    public Integer getCreated() {
+    public Long getCreated() {
         return created;
     }
 
-    public void setCreated(Integer created) {
+    public void setCreated(Long created) {
         this.created = created;
     }
 
@@ -335,11 +335,11 @@ public class RedditPost {
         this.title = title;
     }
 
-    public Integer getCreatedUtc() {
+    public Long getCreatedUtc() {
         return createdUtc;
     }
 
-    public void setCreatedUtc(Integer createdUtc) {
+    public void setCreatedUtc(Long createdUtc) {
         this.createdUtc = createdUtc;
     }
 

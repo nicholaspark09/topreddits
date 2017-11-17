@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.vn008xw.reddit.R;
+import com.example.vn008xw.reddit.util.DrawableUtil;
 
 public class ViewBindingAdapter {
 
@@ -20,6 +22,7 @@ public class ViewBindingAdapter {
     public static void loadImage(@NonNull ImageView imageView, @Nullable String url) {
         Glide.with(imageView.getContext())
                 .load(url)
+                .error(DrawableUtil.getDrawable(imageView.getContext(), R.drawable.ic_no_image))
                 .into(imageView);
     }
 

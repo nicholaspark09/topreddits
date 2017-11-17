@@ -2,7 +2,6 @@ package com.example.vn008xw.reddit.data.reddit;
 
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.vn008xw.reddit.dagger.Remote;
 import com.example.vn008xw.reddit.data.vo.RedditData;
@@ -33,9 +32,8 @@ public class RedditRepository implements RedditDataSource {
         }
         return mRemoteSource.getEntries(after, limit)
                 .doOnNext(redditData -> {
-                    Log.d("Repo: ", redditData.toString());
                     if (redditData != null) {
-                        mCache.put(redditData.getAfter(), redditData);
+                        mCache.put(after, redditData);
                         mCacheIsDirty = false;
                     }
                 });

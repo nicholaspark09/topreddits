@@ -8,7 +8,7 @@ import com.example.vn008xw.reddit.ui.base.BaseView;
 
 import java.util.List;
 
-public interface BestContract {
+public interface BestRedditsContract {
 
     interface View extends BaseView {
         void showEntries(@NonNull List<RedditDataChild> entries);
@@ -17,6 +17,7 @@ public interface BestContract {
     }
 
     interface Presenter extends BasePresenterContract<View> {
+        void getNextGroupOfPosts();
         void getPosts(@NonNull String after);
         void refresh();
 

@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.vn008xw.reddit.R;
-import com.example.vn008xw.reddit.ui.best.BestFragment;
+import com.example.vn008xw.reddit.ui.best.BestRedditsFragment;
 
 import javax.inject.Inject;
 
@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity implements HasSupportFragmen
         setContentView(R.layout.activity_home);
 
         if (savedInstanceState == null) {
-            final BestFragment fragment = BestFragment.newInstance();
+            final BestRedditsFragment fragment = BestRedditsFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();

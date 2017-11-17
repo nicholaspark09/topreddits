@@ -4,24 +4,113 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View"/>
+
         <import type="android.text.TextUtils"/>
 
-        <variable name="timeAgo" type="String"/>
+        <import type="com.example.vn008xw.reddit.util.TimeUtil"/>
+
+        <variable
+            name="timeAgo"
+            type="String"/>
+
         <variable
             name="post"
             type="com.example.vn008xw.reddit.data.vo.RedditPost"/>
     </data>
 
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:padding="@dimen/margin_default">-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/image_view"-->
+    <!--android:layout_width="@dimen/thumbnail_width"-->
+    <!--android:layout_height="@dimen/thumbnail_height"-->
+    <!--android:layout_gravity="start"-->
+    <!--android:layout_marginTop="@dimen/margin_default"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--app:imageUrl="@{post.thumbnail}"-->
+    <!--tools:src="@drawable/ic_no_image"/>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_marginStart="@dimen/margin_default">-->
+    <!---->
+    <!--<TextView-->
+    <!--android:id="@+id/title_text_view"-->
+    <!--style="@style/TextAppearance.AppCompat.Title"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="@dimen/margin_default"-->
+    <!--android:text="@{post.title}"-->
+    <!--app:layout_constraintLeft_toRightOf="@+id/image_view"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:layout_constraintWidth_default="wrap"-->
+    <!--tools:text="the title is really long so we can see how long it really goes down this blah blah blah blah blah"/>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/author_text_view"-->
+    <!--style="@style/TextAppearance.AppCompat.Subhead"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginStart="@dimen/margin_default"-->
+    <!--android:layout_marginTop="@dimen/margin_default"-->
+    <!--android:text="@{@string/list_item_post_author(post.author)}"-->
+    <!--app:layout_constraintLeft_toLeftOf="@+id/title_text_view"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/title_text_view"-->
+    <!--app:layout_constraintWidth_default="wrap"-->
+    <!--tools:text="Author: JK Rowling"/>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/comments_text_view"-->
+    <!--style="@style/TextAppearance.AppCompat.Subhead"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="@dimen/margin_small"-->
+    <!--android:text="@{@string/list_item_post_comment_count(post.numComments)}"-->
+    <!--app:layout_constraintLeft_toLeftOf="@+id/author_text_view"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/author_text_view"-->
+    <!--app:layout_constraintWidth_default="wrap"-->
+    <!--tools:text="Comments: 182"/>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/time_text_view"-->
+    <!--style="@style/TextAppearance.AppCompat.Subhead"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="@dimen/margin_small"-->
+    <!--android:text="@{TimeUtil.getTimeAgo(post)}"-->
+    <!--app:layout_constraintLeft_toLeftOf="@+id/comments_text_view"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/comments_text_view"-->
+    <!--app:layout_constraintWidth_default="wrap"-->
+    <!--tools:text="3 hours ago"/>-->
+
+    <!--</LinearLayout>-->
+
+
+    <!--</LinearLayout>-->
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_large"
+        android:background="@android:color/white"
         android:padding="@dimen/margin_default">
 
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="@dimen/thumbnail_width"
             android:layout_height="@dimen/thumbnail_height"
+            android:layout_marginTop="@dimen/margin_default"
+            android:elevation="@dimen/elevation_card"
+            android:scaleType="centerCrop"
             app:imageUrl="@{post.thumbnail}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,7 +118,7 @@
 
         <TextView
             android:id="@+id/title_text_view"
-            style="@style/TextAppearance.AppCompat.Headline"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_default"
@@ -54,7 +143,7 @@
             tools:text="Author: JK Rowling"/>
 
         <TextView
-            android:id="@+id/comments"
+            android:id="@+id/comments_text_view"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -64,5 +153,17 @@
             app:layout_constraintTop_toBottomOf="@+id/author_text_view"
             app:layout_constraintWidth_default="wrap"
             tools:text="Comments: 182"/>
+
+        <TextView
+            android:id="@+id/time_text_view"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@{TimeUtil.getTimeAgo(post)}"
+            app:layout_constraintLeft_toLeftOf="@+id/comments_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/comments_text_view"
+            app:layout_constraintWidth_default="wrap"
+            tools:text="3 hours ago"/>
     </android.support.constraint.ConstraintLayout>
 </layout>
