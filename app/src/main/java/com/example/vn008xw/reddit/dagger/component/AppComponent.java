@@ -7,6 +7,7 @@ import com.example.vn008xw.reddit.dagger.AppScope;
 import com.example.vn008xw.reddit.dagger.module.ApiModule;
 import com.example.vn008xw.reddit.dagger.module.AppModule;
 import com.example.vn008xw.reddit.dagger.module.HomeActivityModule;
+import com.example.vn008xw.reddit.dagger.module.ImageModule;
 import com.example.vn008xw.reddit.dagger.module.RedditModule;
 
 import dagger.BindsInstance;
@@ -17,6 +18,7 @@ import dagger.android.AndroidInjectionModule;
 @Component(modules = {
         ApiModule.class,
         AppModule.class,
+        ImageModule.class,
         AndroidInjectionModule.class,
         RedditModule.class,
         HomeActivityModule.class

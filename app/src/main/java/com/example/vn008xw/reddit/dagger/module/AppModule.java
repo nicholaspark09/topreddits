@@ -36,4 +36,11 @@ public class AppModule {
     Scheduler provideMainThread() {
         return AndroidSchedulers.mainThread();
     }
+
+    @Provides
+    @AppScope
+    @Named("AppName")
+    String provideAppName(Application application) {
+        return application.getApplicationInfo().packageName;
+    }
 }

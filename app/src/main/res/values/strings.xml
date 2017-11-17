@@ -6,5 +6,10 @@
     <!-- List Item Reddit Post -->
     <string name="list_item_post_author">Author: %s</string>
     <string name="list_item_post_comment_count">Comments: %d</string>
+    <string name="list_item_no_image_title">No Image</string>
+    <string name="list_item_no_image_message">There doesn\'t appear to be an image for this reddit post.</string>
+
+    <!-- Post Image Activity -->
     <string name="title_activity_post_image">PostImageActivity</string>
+
 </resources>
