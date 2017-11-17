@@ -15,6 +15,9 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
+/**
+ *  Home screen for the application
+ */
 public class HomeActivity extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @Inject

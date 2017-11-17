@@ -14,6 +14,8 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
+// Handles logic for the PostImage screen which has a full screen image of the
+// reddit post's thumbnail
 public class PostImagePresenter
         extends BasePresenter<PostImageContract.View>
         implements PostImageContract.Presenter {
@@ -47,12 +49,10 @@ public class PostImagePresenter
                         .subscribeOn(mIoThread)
                         .observeOn(mMainThread)
                         .subscribe(
-                                isSaved -> {
-                                    getView().showSavedStatus(isSaved);
-                                },
-                                error -> {
-                                    Timber.e(error, "Exception: " + error.getLocalizedMessage());
-                                }
+                                isSaved ->
+                                    getView().showSavedStatus(isSaved),
+                                error ->
+                                    Timber.e(error, "Exception: " + error.getLocalizedMessage())
                         );
         mCompositeDisposable.add(disposable);
     }

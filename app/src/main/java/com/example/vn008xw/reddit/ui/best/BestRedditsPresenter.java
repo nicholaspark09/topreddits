@@ -15,12 +15,16 @@ import javax.inject.Named;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 
+/**
+ *  Handles the logic for the list of reddit entries
+ */
 public class BestRedditsPresenter
         extends BasePresenter<BestRedditsContract.View>
         implements BestRedditsContract.Presenter {
 
     // The code test stated pagination should be limited to 10 items
     private static final int LIMIT = 10;
+    // The code test also stated this was to be a list of 50 entries from reddit
     private static final int UPPER_LIMIT = 50;
 
     @NonNull

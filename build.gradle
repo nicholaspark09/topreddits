@@ -69,12 +69,12 @@ ext.deps = [
                 'java'   : "io.reactivex.rxjava2:rxjava:$buildVersions.rxjava"
         ],
         'glide'     : 'com.github.bumptech.glide:glide:3.7.0',
-        'stetho'    : 'com.facebook.stetho:stetho-okhttp3:1.5.0',
         'timber'    : 'com.jakewharton.timber:timber:4.3.1',
+        'gson'      : 'com.google.code.gson:gson:2.8.1',
         'okhttp'    : [
+                'base': "com.squareup.okhttp3:okhttp:$buildVersions.okHttpVersion",
                 'logging': "com.squareup.okhttp3:logging-interceptor:$buildVersions.okHttpVersion"
         ],
-        'scaleimage': 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0',
         'unitTest'  : [
                 'junit': 'junit:junit:4.12'
         ]

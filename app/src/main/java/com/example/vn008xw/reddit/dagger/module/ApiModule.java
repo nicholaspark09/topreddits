@@ -5,7 +5,6 @@ import android.app.Application;
 import com.example.vn008xw.reddit.BuildConfig;
 import com.example.vn008xw.reddit.dagger.AppScope;
 import com.example.vn008xw.reddit.data.api.RedditService;
-import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -60,7 +59,6 @@ public final class ApiModule {
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .addNetworkInterceptor(interceptor)
-                .addNetworkInterceptor(new StethoInterceptor())
                 .writeTimeout(30, TimeUnit.SECONDS);
         return builder.build();
     }

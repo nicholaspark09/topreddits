@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.example.vn008xw.reddit.dagger.component.DaggerAppComponent;
-import com.facebook.stetho.Stetho;
 
 import javax.inject.Inject;
 
@@ -24,7 +23,6 @@ public class RedditApplication extends Application implements HasActivityInjecto
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
-            Stetho.initializeWithDefaults(this);
         }
         DaggerAppComponent.builder()
                 .application(this)
