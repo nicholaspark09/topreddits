@@ -1,6 +1,7 @@
 package com.example.vn008xw.reddit.data.reddit;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.vn008xw.reddit.data.api.RedditService;
 import com.example.vn008xw.reddit.data.vo.RedditData;
@@ -10,8 +11,6 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 
 public class RedditRemoteSource implements RedditDataSource {
-
-    private static final int MAX_ENTRIES = 50;
 
     @NonNull
     private final RedditService mRedditService;
@@ -24,9 +23,10 @@ public class RedditRemoteSource implements RedditDataSource {
     @Override
     public Observable<RedditData> getEntries(@NonNull String after, int limit) {
         return mRedditService.getPosts(after, limit)
-                .flatMap(response ->
-                        Observable.just(response.getRedditData())
-                );
+                .flatMap(response -> {
+                    Log.d("Remote:", response.toString());
+                            return Observable.just(response.getRedditData());
+                        });
     }
 
     @Override

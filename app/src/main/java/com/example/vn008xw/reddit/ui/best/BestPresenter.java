@@ -16,6 +16,9 @@ public class BestPresenter
         extends BasePresenter<BestContract.View>
         implements BestContract.Presenter {
 
+    // The code test stated pagination should be limited to 10 items
+    private static final int LIMIT = 10;
+
     @NonNull
     private final RedditRepository mRepository;
     @NonNull
@@ -33,21 +36,22 @@ public class BestPresenter
     }
 
     @Override
-    public void getTopFifty() {
+    public void getPosts(@NonNull String after) {
         if (getView() != null) {
             getView().showLoading(true);
-            mRepository.getAllEntries()
+            mRepository.getEntries(after, LIMIT)
                     .subscribeOn(mIoThread)
                     .observeOn(mMainThread)
                     .subscribe(
                             data -> {
-                                Log.d("Presenter", "You got data back: " +data.toString()+" size: " + data.size());
-                                for (RedditDataChild child : data) {
-                                    Log.d("Presenter", "Child: " + child.getRedditPost().toString());
+                                getView().showLoading(false);
+                                if (data != null) {
+                                    getView().showEntries(data.getChildren());
                                 }
                             },
                             error -> {
-                                getView().showError("Couldn't get anything");
+                                getView().showLoading(false);
+                                getView().showError("Couldn't get anything: "+ error.getLocalizedMessage());
                             }
                     );
         }

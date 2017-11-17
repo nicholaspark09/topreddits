@@ -17,7 +17,7 @@ public interface BestContract {
     }
 
     interface Presenter extends BasePresenterContract<View> {
-        void getTopFifty();
+        void getPosts(@NonNull String after);
         void refresh();
 
         void openImage(@NonNull String thumbnail);

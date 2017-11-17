@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Reddit</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- List Item Reddit Post -->
+    <string name="list_item_post_author">Author: %s</string>
+    <string name="list_item_post_comment_count">Comments: %d</string>
 </resources>

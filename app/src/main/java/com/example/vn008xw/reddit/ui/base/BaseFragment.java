@@ -1,9 +1,8 @@
 package com.example.vn008xw.reddit.ui.base;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
-
-import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -33,7 +32,7 @@ public abstract class BaseFragment<T extends BasePresenterContract>
     }
 
     @Override
-    public void showError(@NotNull String message) {
+    public void showError(@NonNull String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

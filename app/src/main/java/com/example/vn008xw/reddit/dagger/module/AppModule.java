@@ -5,7 +5,6 @@ import android.app.Application;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.example.vn008xw.reddit.dagger.AppScope;
-import com.example.vn008xw.reddit.util.DaggerUtil;
 
 import javax.inject.Named;
 
@@ -28,13 +27,13 @@ public class AppModule {
     @AppScope
     @Named("IoThread")
     Scheduler provideIoThread() {
-        return DaggerUtil.track(Schedulers.io());
+        return Schedulers.io();
     }
 
     @Provides
     @AppScope
     @Named("MainThread")
     Scheduler provideMainThread() {
-        return DaggerUtil.track(AndroidSchedulers.mainThread());
+        return AndroidSchedulers.mainThread();
     }
 }

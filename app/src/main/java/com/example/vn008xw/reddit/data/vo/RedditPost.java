@@ -44,8 +44,6 @@ public class RedditPost {
     private String thumbnail;
     @SerializedName("subreddit_id")
     private String subredditId;
-    @SerializedName("edited")
-    private Boolean edited;
     @SerializedName("link_flair_css_class")
     private Object linkFlairCssClass;
     @SerializedName("author_flair_css_class")
@@ -239,14 +237,6 @@ public class RedditPost {
 
     public void setSubredditId(String subredditId) {
         this.subredditId = subredditId;
-    }
-
-    public Boolean getEdited() {
-        return edited;
-    }
-
-    public void setEdited(Boolean edited) {
-        this.edited = edited;
     }
 
     public Object getLinkFlairCssClass() {

@@ -6,7 +6,6 @@ import com.example.vn008xw.reddit.data.api.RedditService;
 import com.example.vn008xw.reddit.data.reddit.RedditDataSource;
 import com.example.vn008xw.reddit.data.reddit.RedditRemoteSource;
 import com.example.vn008xw.reddit.data.reddit.RedditRepository;
-import com.example.vn008xw.reddit.util.DaggerUtil;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,12 +17,12 @@ public class RedditModule {
     @AppScope
     @Remote
     RedditDataSource provideRemoteRedditSource(RedditService redditService) {
-        return DaggerUtil.track(new RedditRemoteSource(redditService));
+        return new RedditRemoteSource(redditService);
     }
 
     @Provides
     @AppScope
     RedditRepository provideRedditRepository(@Remote RedditDataSource redditDataSource) {
-        return DaggerUtil.track(new RedditRepository(redditDataSource));
+        return new RedditRepository(redditDataSource);
     }
 }
