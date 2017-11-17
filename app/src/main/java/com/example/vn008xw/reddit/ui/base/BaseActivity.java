@@ -11,7 +11,7 @@ import dagger.android.AndroidInjection;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public abstract class BaseActivity<T extends BasePresenter>
+public abstract class BaseActivity<T extends BasePresenterContract>
         extends AppCompatActivity
         implements BaseView, HasSupportFragmentInjector {
 
@@ -20,6 +20,10 @@ public abstract class BaseActivity<T extends BasePresenter>
 
     @Inject
     T mPresenter;
+
+    public T getPresenter() {
+        return mPresenter;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

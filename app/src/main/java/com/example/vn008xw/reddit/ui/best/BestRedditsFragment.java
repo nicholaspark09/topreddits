@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.example.vn008xw.reddit.R;
 import com.example.vn008xw.reddit.data.vo.RedditDataChild;
+import com.example.vn008xw.reddit.data.vo.RedditPost;
 import com.example.vn008xw.reddit.databinding.FragmentBestBinding;
 import com.example.vn008xw.reddit.ui.base.BaseFragment;
 import com.example.vn008xw.reddit.ui.postimage.PostImageActivity;
@@ -50,8 +51,8 @@ public class BestRedditsFragment extends BaseFragment<BestRedditsContract.Presen
         super.onActivityCreated(savedInstanceState);
         mAdapter = new RedditListAdapter(new RedditListAdapter.ImageClickCallback() {
             @Override
-            public void onClick(@NonNull String url, @NonNull ImageView imageView) {
-                showImage(url, imageView);
+            public void onClick(@NonNull RedditPost post, @NonNull ImageView imageView) {
+                showImage(post, imageView);
             }
 
             @Override
@@ -89,8 +90,9 @@ public class BestRedditsFragment extends BaseFragment<BestRedditsContract.Presen
     }
 
     @Override
-    public void showImage(@NonNull String thumbnail, @NonNull ImageView imageView) {
-        final Intent intent = PostImageActivity.createIntent(getActivity(), thumbnail);
+    public void showImage(@NonNull RedditPost post, @NonNull ImageView imageView) {
+        final Intent intent =
+                PostImageActivity.createIntent(getActivity(), post.getThumbnail(), post.getId());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             startActivity(intent,

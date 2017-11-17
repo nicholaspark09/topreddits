@@ -8,23 +8,24 @@ import com.example.vn008xw.reddit.dagger.module.ApiModule;
 import com.example.vn008xw.reddit.dagger.module.AppModule;
 import com.example.vn008xw.reddit.dagger.module.HomeActivityModule;
 import com.example.vn008xw.reddit.dagger.module.ImageModule;
+import com.example.vn008xw.reddit.dagger.module.PostImageActivityModule;
 import com.example.vn008xw.reddit.dagger.module.RedditModule;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import dagger.android.support.AndroidSupportInjectionModule;
 
 @AppScope
 @Component(modules = {
         ApiModule.class,
         AppModule.class,
         ImageModule.class,
-        AndroidInjectionModule.class,
+        AndroidSupportInjectionModule.class,
         RedditModule.class,
-        HomeActivityModule.class
+        HomeActivityModule.class,
+        PostImageActivityModule.class
 })
 public interface AppComponent {
-
 
     void inject(RedditApplication applicationInstance);
 
@@ -36,6 +37,7 @@ public interface AppComponent {
         @BindsInstance
         Builder application(Application application);
 
+        // To enable a different api module to be used for testing or mocking
         Builder apiModule(ApiModule apiModule);
     }
 }

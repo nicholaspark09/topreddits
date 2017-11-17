@@ -8,5 +8,16 @@ import io.reactivex.Observable;
 
 public interface ImageDataSource {
 
-    Observable<String> saveImage(@NonNull String url, @NonNull Bitmap bitmap);
+    void setPostId(@NonNull String id);
+
+    @NonNull
+    Observable<Boolean> getSavedStatus();
+
+    @NonNull
+    Observable<String> saveImage(@NonNull Bitmap bitmap);
+
+    @NonNull
+    String getPhotoUrl();
+
+    void deleteImage();
 }

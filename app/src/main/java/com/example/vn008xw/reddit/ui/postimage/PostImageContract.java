@@ -9,12 +9,16 @@ import com.example.vn008xw.reddit.ui.base.BaseView;
 public interface PostImageContract {
 
     interface View extends BaseView {
-        void showSaveSuccess(@NonNull String imageUrl);
-        void showGalleryImage(@NonNull String imageUrl);
+        void showSavedStatus(boolean isSaved);
     }
 
     interface Presenter extends BasePresenterContract<View> {
-        void saveImage(@NonNull String url, @NonNull Bitmap bitmap);
-        void unsaveImage(@NonNull String url);
+        void start(@NonNull String id);
+
+        void observeSavedStatus();
+
+        void saveImage(@NonNull Bitmap bitmap);
+
+        void deleteImage();
     }
 }

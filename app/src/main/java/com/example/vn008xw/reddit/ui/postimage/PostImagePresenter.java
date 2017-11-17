@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 public class PostImagePresenter
         extends BasePresenter<PostImageContract.View>
@@ -34,16 +35,42 @@ public class PostImagePresenter
     }
 
     @Override
-    public void saveImage(@NonNull String url, @NonNull Bitmap bitmap) {
+    public void start(@NonNull String id) {
+        mRepository.setPostId(id);
+        observeSavedStatus();
+    }
+
+    @Override
+    public void observeSavedStatus() {
         final Disposable disposable =
-                mRepository.saveImage(url, bitmap)
+                mRepository.getSavedStatus()
                         .subscribeOn(mIoThread)
                         .observeOn(mMainThread)
                         .subscribe(
-                                result -> {
-                                    getView().showSaveSuccess(result);
+                                isSaved -> {
+                                    getView().showSavedStatus(isSaved);
                                 },
                                 error -> {
+                                    Timber.e(error, "Exception: " + error.getLocalizedMessage());
+                                }
+                        );
+        mCompositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void saveImage(@NonNull Bitmap bitmap) {
+        final Disposable disposable =
+                mRepository.saveImage(bitmap)
+                        .subscribeOn(mIoThread)
+                        .observeOn(mMainThread)
+                        .subscribe(
+                                urlResult -> {
+                                    // The behaviorsubject should be updated so this is only
+                                    // if you wanted to update the users more strongly
+                                    Timber.d("Saved the image with path: " + urlResult);
+                                },
+                                error -> {
+                                    Timber.e("Exception: " + error.getLocalizedMessage());
                                     getView().showError("Sorry, no luck. Please try again.");
                                 }
                         );
@@ -51,7 +78,7 @@ public class PostImagePresenter
     }
 
     @Override
-    public void unsaveImage(@NonNull String url) {
-
+    public void deleteImage() {
+        mRepository.deleteImage();
     }
 }

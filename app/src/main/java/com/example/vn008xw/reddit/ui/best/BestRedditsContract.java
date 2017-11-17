@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.example.vn008xw.reddit.data.vo.RedditDataChild;
+import com.example.vn008xw.reddit.data.vo.RedditPost;
 import com.example.vn008xw.reddit.ui.base.BasePresenterContract;
 import com.example.vn008xw.reddit.ui.base.BaseView;
 
@@ -14,7 +15,7 @@ public interface BestRedditsContract {
     interface View extends BaseView {
         void showEntries(@NonNull List<RedditDataChild> entries);
 
-        void showImage(@NonNull String thumbnail, @NonNull ImageView imageView);
+        void showImage(@NonNull RedditPost post, @NonNull ImageView imageView);
     }
 
     interface Presenter extends BasePresenterContract<View> {

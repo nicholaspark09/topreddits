@@ -28,7 +28,7 @@ public class RedditListAdapter extends DataBoundAdapter<RedditDataChild, ListIte
         binding.imageView.setOnClickListener(v -> {
             final RedditPost post = binding.getPost();
             if (post != null && post.getThumbnail() != null && post.getThumbnail().contains(KEY_IN_THUMB)) {
-                mImageClickCallback.onClick(post.getThumbnail(), (ImageView) v);
+                mImageClickCallback.onClick(post, (ImageView) v);
             } else {
                 mImageClickCallback.onNoImage();
             }
@@ -52,7 +52,7 @@ public class RedditListAdapter extends DataBoundAdapter<RedditDataChild, ListIte
     }
 
     public interface ImageClickCallback {
-        void onClick(@NonNull String url, @NonNull ImageView imageView);
+        void onClick(@NonNull RedditPost post, @NonNull ImageView imageView);
 
         void onNoImage();
     }
