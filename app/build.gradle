@@ -16,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
         buildConfigField 'String', 'ENDPOINT', apiProps['REDDIT_URL']
     }
     buildTypes {
@@ -53,7 +54,8 @@ dependencies {
             deps.stetho,
             deps.okhttp.logging,
             deps.timber,
-            deps.glide
+            deps.glide,
+            deps.scaleimage
     )
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'

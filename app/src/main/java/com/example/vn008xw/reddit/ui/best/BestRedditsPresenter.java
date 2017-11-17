@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
 
 public class BestRedditsPresenter
         extends BasePresenter<BestRedditsContract.View>
@@ -53,7 +54,7 @@ public class BestRedditsPresenter
         if (getView() != null && !mIsLoading && mPosts.size() < UPPER_LIMIT) {
             getView().showLoading(true);
             mIsLoading = true;
-            mRepository.getEntries(after, LIMIT)
+            final Disposable disposable = mRepository.getEntries(after, LIMIT)
                     .subscribeOn(mIoThread)
                     .observeOn(mMainThread)
                     .subscribe(
@@ -72,6 +73,7 @@ public class BestRedditsPresenter
                                 mIsLoading = false;
                             }
                     );
+            mCompositeDisposable.add(disposable);
         }
     }
 
@@ -82,10 +84,5 @@ public class BestRedditsPresenter
         mIsLoading = false;
         mRepository.refresh();
         getNextGroupOfPosts();
-    }
-
-    @Override
-    public void openImage(@NonNull String thumbnail) {
-
     }
 }

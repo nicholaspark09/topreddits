@@ -23,8 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.image.PostImageActivity"
+            android:name=".ui.postimage.PostImageActivity"
+            android:configChanges="orientation"
             android:label="@string/title_activity_post_image"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

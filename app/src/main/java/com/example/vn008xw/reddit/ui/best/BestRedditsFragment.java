@@ -1,17 +1,25 @@
 package com.example.vn008xw.reddit.ui.best;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.example.vn008xw.reddit.R;
 import com.example.vn008xw.reddit.data.vo.RedditDataChild;
 import com.example.vn008xw.reddit.databinding.FragmentBestBinding;
 import com.example.vn008xw.reddit.ui.base.BaseFragment;
+import com.example.vn008xw.reddit.ui.postimage.PostImageActivity;
 import com.example.vn008xw.reddit.util.ItemDecorationUtil;
 
 import java.util.List;
@@ -40,8 +48,20 @@ public class BestRedditsFragment extends BaseFragment<BestRedditsContract.Presen
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mAdapter = new RedditListAdapter(url -> {
-            getPresenter().openImage(url);
+        mAdapter = new RedditListAdapter(new RedditListAdapter.ImageClickCallback() {
+            @Override
+            public void onClick(@NonNull String url, @NonNull ImageView imageView) {
+                showImage(url, imageView);
+            }
+
+            @Override
+            public void onNoImage() {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.list_item_no_image_title)
+                        .setMessage(R.string.list_item_no_image_message)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .show();
+            }
         });
         mBinding.recyclerView.setAdapter(mAdapter);
         ItemDecorationUtil.setStandardDecoration(mBinding.recyclerView);
@@ -69,8 +89,19 @@ public class BestRedditsFragment extends BaseFragment<BestRedditsContract.Presen
     }
 
     @Override
-    public void showImage(@NonNull String thumbnail) {
+    public void showImage(@NonNull String thumbnail, @NonNull ImageView imageView) {
+        final Intent intent = PostImageActivity.createIntent(getActivity(), thumbnail);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+            startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+                            getActivity(),
+                            imageView,
+                            ViewCompat.getTransitionName(imageView)
+                    ).toBundle());
+        } else {
+            startActivity(intent);
+        }
     }
 
     private boolean isLastItemVisible(@NonNull RecyclerView recyclerView) {
