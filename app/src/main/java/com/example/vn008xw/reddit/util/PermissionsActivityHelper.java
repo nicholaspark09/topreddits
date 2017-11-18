@@ -12,7 +12,8 @@ public class PermissionsActivityHelper implements PermissionsHelperContract {
 
     @NonNull
     private final Activity mContext;
-    @NonNull private final Callback mCallback;
+    @NonNull
+    private final Callback mCallback;
     private boolean mHasShownRationale = false;
 
     private PermissionsActivityHelper(@NonNull Activity context) {

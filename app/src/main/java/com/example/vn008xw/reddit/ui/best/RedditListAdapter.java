@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.vn008xw.reddit.data.vo.RedditDataChild;
 import com.example.vn008xw.reddit.data.vo.RedditPost;
@@ -27,11 +28,16 @@ public class RedditListAdapter extends DataBoundAdapter<RedditDataChild, RedditP
                 RedditPostCardBinding.inflate(LayoutInflater.from(parent.getContext()));
         binding.imageView.setOnClickListener(v -> {
             final RedditPost post = binding.getPost();
-            if (post != null && post.getThumbnail() != null && post.getThumbnail().contains(KEY_IN_THUMB)) {
-                mImageClickCallback.onClick(post, (ImageView) v);
-            } else {
-                mImageClickCallback.onNoImage();
-            }
+            mImageClickCallback.onImageClicked(post, binding.imageView);
+        });
+        binding.titleTextView.setOnClickListener(v -> {
+            final RedditPost post = binding.getPost();
+            mImageClickCallback.onTitleClicked(
+                    post,
+                    binding.imageView,
+                    binding.titleTextView,
+                    binding.authorTextView
+            );
         });
         return binding;
     }
@@ -52,8 +58,12 @@ public class RedditListAdapter extends DataBoundAdapter<RedditDataChild, RedditP
     }
 
     public interface ImageClickCallback {
-        void onClick(@NonNull RedditPost post, @NonNull ImageView imageView);
+        // The imageview and textview are being sent for transition purposes
+        void onTitleClicked(@NonNull RedditPost post,
+                            @NonNull ImageView imageView,
+                            @NonNull TextView titleView,
+                            @NonNull TextView authorView);
 
-        void onNoImage();
+        void onImageClicked(@NonNull RedditPost post, @NonNull ImageView imageView);
     }
 }

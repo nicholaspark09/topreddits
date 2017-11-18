@@ -10,6 +10,7 @@ import com.example.vn008xw.reddit.dagger.module.HomeActivityModule;
 import com.example.vn008xw.reddit.dagger.module.ImageModule;
 import com.example.vn008xw.reddit.dagger.module.PostImageActivityModule;
 import com.example.vn008xw.reddit.dagger.module.RedditModule;
+import com.example.vn008xw.reddit.dagger.module.RedditPostDetailActivityModule;
 
 import dagger.BindsInstance;
 import dagger.Component;
@@ -23,7 +24,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AndroidSupportInjectionModule.class,
         RedditModule.class,
         HomeActivityModule.class,
-        PostImageActivityModule.class
+        PostImageActivityModule.class,
+        RedditPostDetailActivityModule.class
 })
 public interface AppComponent {
 

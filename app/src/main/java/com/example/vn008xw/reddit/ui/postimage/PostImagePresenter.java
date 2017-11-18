@@ -50,9 +50,9 @@ public class PostImagePresenter
                         .observeOn(mMainThread)
                         .subscribe(
                                 isSaved ->
-                                    getView().showSavedStatus(isSaved),
+                                        getView().showSavedStatus(isSaved),
                                 error ->
-                                    Timber.e(error, "Exception: " + error.getLocalizedMessage())
+                                        Timber.e(error, "Exception: " + error.getLocalizedMessage())
                         );
         mCompositeDisposable.add(disposable);
     }

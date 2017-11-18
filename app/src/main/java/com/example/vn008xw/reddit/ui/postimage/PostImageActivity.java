@@ -29,6 +29,7 @@ import com.example.vn008xw.reddit.ui.base.BaseActivity;
 import com.example.vn008xw.reddit.util.DrawableUtil;
 import com.example.vn008xw.reddit.util.PermissionsActivityHelper;
 import com.example.vn008xw.reddit.util.PermissionsHelperContract;
+import com.example.vn008xw.reddit.util.VersionUtil;
 
 import dagger.android.AndroidInjection;
 
@@ -78,7 +79,7 @@ public class PostImageActivity
         super.onCreate(savedInstanceState);
         // Need to postpone transitions until the image has loaded
         // This only applies to versions lollipop and above
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (VersionUtil.isLollipopOrHigher()) {
             supportPostponeEnterTransition();
         }
         mImageUrl = getIntent().getStringExtra(ARG_IMAGE_URL);
@@ -117,7 +118,7 @@ public class PostImageActivity
                             // will need to load the large image as soon as the thumbnail has loaded
                             // On Lollipop+ the large image will start loading after the transition has
                             // finished to avoid any jerkiness
-                            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                                 startLargeImage();
                             }
                         }
@@ -193,7 +194,7 @@ public class PostImageActivity
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void checkAndStartTransition() {
-        if (!mTransitionStarted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (!mTransitionStarted && VersionUtil.isLollipopOrHigher()) {
             supportStartPostponedEnterTransition();
             mTransitionStarted = true;
         }

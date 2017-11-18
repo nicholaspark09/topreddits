@@ -2,9 +2,11 @@ package com.example.vn008xw.reddit.data.reddit;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.example.vn008xw.reddit.dagger.Remote;
 import com.example.vn008xw.reddit.data.vo.RedditData;
+import com.example.vn008xw.reddit.data.vo.RedditPost;
 
 import java.util.HashMap;
 
@@ -18,6 +20,9 @@ public class RedditRepository implements RedditDataSource {
     private final RedditDataSource mRemoteSource;
     @NonNull
     private final HashMap<String, RedditData> mCache = new HashMap<>();
+
+    @Nullable
+    private RedditPost mCachedPost;
     private boolean mCacheIsDirty = false;
 
     @Inject
@@ -37,6 +42,17 @@ public class RedditRepository implements RedditDataSource {
                         mCacheIsDirty = false;
                     }
                 });
+    }
+
+    @Override
+    public void cachePost(@NonNull RedditPost post) {
+        mCachedPost = post;
+    }
+
+    @Nullable
+    @Override
+    public RedditPost getCachedPost(@NonNull String postId) {
+        return mCachedPost != null && mCachedPost.getId().equals(postId) ? mCachedPost : null;
     }
 
     @Override

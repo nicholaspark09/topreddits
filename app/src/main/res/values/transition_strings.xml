@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="transition_image" translatable="false">post_image</string>
+    <string name="transition_detail_image" translatable="false">post_detail_image</string>
+    <string name="transition_detail_title" translatable="false">post_detail_title</string>
+    <string name="transition_detail_author" translatable="false">post_detail_author</string>
 </resources>

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.example.vn008xw.reddit.data.api.RedditService;
 import com.example.vn008xw.reddit.data.vo.RedditData;
+import com.example.vn008xw.reddit.data.vo.RedditPost;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,16 @@ public class RedditRemoteSource implements RedditDataSource {
                 .flatMap(response ->
                         Observable.just(response.getRedditData())
                 );
+    }
+
+    @Override
+    public void cachePost(@NonNull RedditPost post) {
+        throw new AssertionError("Not implemented in remote source");
+    }
+
+    @Override
+    public RedditPost getCachedPost(@NonNull String postId) {
+        throw new AssertionError("Not implemented in remote source");
     }
 
     @Override

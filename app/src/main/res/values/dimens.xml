@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Margins -->
     <dimen name="margin_small">4dp</dimen>
     <dimen name="margin_default">8dp</dimen>
     <dimen name="margin_large">16dp</dimen>
 
+    <!-- Padding -->
     <dimen name="padding_default">8dp</dimen>
 
     <!-- Images -->
@@ -19,4 +21,7 @@
     <!-- Radius -->
     <dimen name="radius_small">2dp</dimen>
     <dimen name="radius_default">4dp</dimen>
+
+    <!-- AppBar -->
+    <dimen name="appbar_post_details">250dp</dimen>
 </resources>

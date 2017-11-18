@@ -1,10 +1,15 @@
 package com.example.vn008xw.reddit.ui.best;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.vn008xw.reddit.data.reddit.RedditRepository;
 import com.example.vn008xw.reddit.data.vo.RedditDataChild;
+import com.example.vn008xw.reddit.data.vo.RedditPost;
 import com.example.vn008xw.reddit.ui.base.BasePresenter;
+import com.example.vn008xw.reddit.util.ImageUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +21,7 @@ import io.reactivex.Scheduler;
 import io.reactivex.disposables.Disposable;
 
 /**
- *  Handles the logic for the list of reddit entries
+ * Handles the logic for the list of reddit entries
  */
 public class BestRedditsPresenter
         extends BasePresenter<BestRedditsContract.View>
@@ -79,6 +84,29 @@ public class BestRedditsPresenter
                     );
             mCompositeDisposable.add(disposable);
         }
+    }
+
+    @Override
+    public void openImage(@NonNull RedditPost post, @NonNull ImageView imageView) {
+        if (ImageUtil.hasImageUrl(post)) {
+            getView().showImage(post, imageView);
+        } else {
+            getView().showNoImage();
+        }
+    }
+
+    @Override
+    public void openRedditDetail(@NonNull RedditPost redditPost,
+                                 @NonNull TextView titleView,
+                                 @NonNull TextView authorView,
+                                 @Nullable ImageView imageView) {
+        // Cache the detail
+        mRepository.cachePost(redditPost);
+        getView().showRedditDetail(ImageUtil.hasImageUrl(redditPost),
+                redditPost.getId(),
+                titleView,
+                authorView,
+                imageView);
     }
 
     @Override

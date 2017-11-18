@@ -76,9 +76,9 @@ public final class ApiModule {
                              OkHttpClient okHttpClient,
                              @Named("Endpoint") String endPoint) {
         return new Retrofit.Builder().client(okHttpClient)
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                        .addConverterFactory(GsonConverterFactory.create(gson))
-                        .baseUrl(endPoint)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl(endPoint)
                 .build();
     }
 

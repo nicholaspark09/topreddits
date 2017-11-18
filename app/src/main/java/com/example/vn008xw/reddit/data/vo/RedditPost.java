@@ -15,7 +15,7 @@ public class RedditPost {
     @SerializedName("selftext")
     private String selftext;
     @SerializedName("likes")
-    private Object likes;
+    private Integer likes;
     @SerializedName("secure_media")
     private Object secureMedia;
     @SerializedName("link_flair_text")
@@ -119,11 +119,11 @@ public class RedditPost {
         this.selftext = selftext;
     }
 
-    public Object getLikes() {
+    public Integer getLikes() {
         return likes;
     }
 
-    public void setLikes(Object likes) {
+    public void setLikes(Integer likes) {
         this.likes = likes;
     }
 

@@ -4,9 +4,14 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.example.vn008xw.reddit.util.TimeUtil"/>
         <import type="android.view.View"/>
 
         <variable name="isLoading" type="Boolean"/>
+        <variable name="hasImage" type="Boolean"/>
+        <variable name="appbarLoading" type="Boolean"/>
+        <variable name="imageUrl" type="String"/>
+        <variable name="post" type="com.example.vn008xw.reddit.data.vo.RedditPost"/>
     </data>
 
     <android.support.design.widget.CoordinatorLayout
@@ -15,19 +20,11 @@
         android:animateLayoutChanges="true"
         tools:context="com.example.vn008xw.reddit.ui.redditpost.RedditPostDetailActivity">
 
-        <android.support.design.widget.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-        </android.support.design.widget.AppBarLayout>
+        <include
+            android:id="@+id/post_app_bar"
+            layout="@layout/appbar_post_details"
+            app:hasImage="@{hasImage}"
+            app:isLoading="@{appbarLoading}"/>
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -41,26 +38,83 @@
                 android:orientation="vertical">
 
                 <!-- Reddit Post Details -->
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+                <TextView
+                    android:id="@+id/title_text_view"
+                    style="@style/TextAppearance.Reddit.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:transitionName="@string/transition_detail_title"
+                    android:text="@{post.title}"
+                    tools:text="This is the title for in the Reddit Post Detail. Is this long enough?"/>
 
+                <!-- Author and Time -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_margin="@dimen/margin_default"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                </android.support.constraint.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/author_text_view"
+                        style="@style/TextAppearance.Reddit.Subtitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="@dimen/margin_default"
+                        android:text="@{@string/list_item_post_author(post.author)}"
+                        android:transitionName="@string/transition_detail_author"
+                        tools:text="By blah blah"/>
+
+                    <TextView
+                        android:id="@+id/time_text_view"
+                        style="@style/TextAppearance.Reddit.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_default"
+                        android:text="@{TimeUtil.getTimeAgo(post)}"
+                        tools:text="3 hours ago"/>
+                </LinearLayout>
+                <!-- End Author and Time -->
+
+                <TextView
+                    android:id="@+id/comments_text_view"
+                    style="@style/TextAppearance.Reddit.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:drawableStart="@drawable/ic_refersms"
+                    android:drawableTint="@color/colorBlueAccent"
+                    android:text="@{@string/list_item_post_comment_count(post.numComments)}"
+                    tools:text="1822343242"
+                    tools:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/likes_text_view"
+                    style="@style/TextAppearance.Reddit.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:drawableStart="@drawable/ic_happy_24px"
+                    android:text="@{Integer.toString(post.likes)}"
+                    tools:text="1822343242"
+                    tools:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/downs_text_view"
+                    style="@style/TextAppearance.Reddit.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_default"
+                    android:drawableStart="@drawable/ic_unhappy_24px"
+                    android:text="@{Integer.toString(post.downs)}"
+                    tools:text="1822343242"
+                    tools:visibility="visible"/>
                 <!-- End Post Deails -->
-
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_dialog_email"/>
-
     </android.support.design.widget.CoordinatorLayout>
 </layout>

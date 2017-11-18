@@ -22,4 +22,9 @@
     <string name="post_activity_denied_message">Looks like you have the permissions turned off. Please go to your settings to allow us to save this photo.</string>
     <string name="post_activity_denied_settings">Settings</string>
     <string name="title_activity_reddit_post_detail">RedditPostDetail</string>
+
+    <!-- Post Detail Activity -->
+    <string name="reddit_post_title">Post Details</string>
+    <string name="reddit_post_youtube_link">Youtube</string>
+    <string name="reddit_post_youtube_error">Sorry, you need the youtube app or another video playing app</string>
 </resources>
