@@ -46,36 +46,37 @@ ext.buildVersions = [
  * Defines the dependencies for the app
  */
 ext.deps = [
-        'support'   : [
+        'support' : [
                 'appcompat'       : "com.android.support:appcompat-v7:$buildVersions.supportLib",
                 'design'          : "com.android.support:design:$buildVersions.supportLib",
                 'cardView'        : "com.android.support:cardview-v7:$buildVersions.supportLib",
                 'constraintLayout': 'com.android.support.constraint:constraint-layout:1.0.2'
         ],
-        'dagger'    : [
+        'dagger'  : [
                 'android'         : "com.google.dagger:dagger-android:$buildVersions.daggerVersion",
                 'support'         : "com.google.dagger:dagger-android-support:$buildVersions.daggerVersion",
                 'base'            : "com.google.dagger:dagger:$buildVersions.daggerVersion",
                 'androidProcessor': "com.google.dagger:dagger-android-processor:$buildVersions.daggerVersion",
                 'compiler'        : "com.google.dagger:dagger-compiler:$buildVersions.daggerVersion"
         ],
-        'retrofit'  : [
+        'retrofit': [
                 'base'     : "com.squareup.retrofit2:retrofit:$buildVersions.retrofitVersion",
                 'gson'     : "com.squareup.retrofit2:converter-gson:$buildVersions.retrofitVersion",
                 'rxadapter': "com.squareup.retrofit2:adapter-rxjava2:$buildVersions.retrofitVersion"
         ],
-        'rxjava'    : [
+        'rxjava'  : [
                 'android': "io.reactivex.rxjava2:rxandroid:$buildVersions.rxjava",
                 'java'   : "io.reactivex.rxjava2:rxjava:$buildVersions.rxjava"
         ],
-        'glide'     : 'com.github.bumptech.glide:glide:3.7.0',
-        'timber'    : 'com.jakewharton.timber:timber:4.3.1',
-        'gson'      : 'com.google.code.gson:gson:2.8.1',
-        'okhttp'    : [
-                'base': "com.squareup.okhttp3:okhttp:$buildVersions.okHttpVersion",
+        'glide'   : 'com.github.bumptech.glide:glide:3.7.0',
+        'timber'  : 'com.jakewharton.timber:timber:4.3.1',
+        'gson'    : 'com.google.code.gson:gson:2.8.1',
+        'okhttp'  : [
+                'base'   : "com.squareup.okhttp3:okhttp:$buildVersions.okHttpVersion",
                 'logging': "com.squareup.okhttp3:logging-interceptor:$buildVersions.okHttpVersion"
         ],
-        'unitTest'  : [
-                'junit': 'junit:junit:4.12'
+        'unitTest': [
+                'junit' : 'junit:junit:4.12',
+                'mockito': 'org.mockito:mockito-core:2.5.0'
         ]
 ]

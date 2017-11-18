@@ -2,6 +2,7 @@ package com.example.vn008xw.reddit.ui.best;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,15 +34,23 @@ public class BestRedditsPresenter
     private static final int UPPER_LIMIT = 50;
 
     @NonNull
-    private final RedditRepository mRepository;
+    @VisibleForTesting
+    final RedditRepository mRepository;
     @NonNull
-    private final Scheduler mIoThread;
+    @VisibleForTesting
+    final Scheduler mIoThread;
     @NonNull
-    private final Scheduler mMainThread;
+    @VisibleForTesting
+    final Scheduler mMainThread;
     @NonNull
-    private String mMostRecentAfter = "";
-    private boolean mIsLoading = false;
-    private final List<RedditDataChild> mPosts = new ArrayList<>();
+    @VisibleForTesting
+    String mMostRecentAfter = "";
+    @VisibleForTesting
+    boolean mIsLoading = false;
+
+    @NonNull
+    @VisibleForTesting
+    final List<RedditDataChild> mPosts = new ArrayList<>();
 
     @Inject
     public BestRedditsPresenter(@NonNull RedditRepository redditRepository,
@@ -115,6 +124,5 @@ public class BestRedditsPresenter
         mMostRecentAfter = "";
         mIsLoading = false;
         mRepository.refresh();
-        getNextGroupOfPosts();
     }
 }

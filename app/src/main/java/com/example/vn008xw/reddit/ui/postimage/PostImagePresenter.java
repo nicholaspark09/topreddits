@@ -3,6 +3,7 @@ package com.example.vn008xw.reddit.ui.postimage;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.example.vn008xw.reddit.data.image.ImageRepository;
 import com.example.vn008xw.reddit.ui.base.BasePresenter;
@@ -21,11 +22,14 @@ public class PostImagePresenter
         implements PostImageContract.Presenter {
 
     @NonNull
-    private final ImageRepository mRepository;
+    @VisibleForTesting
+    final ImageRepository mRepository;
     @NonNull
-    private final Scheduler mIoThread;
+    @VisibleForTesting
+    final Scheduler mIoThread;
     @NonNull
-    private final Scheduler mMainThread;
+    @VisibleForTesting
+    final Scheduler mMainThread;
 
     @Inject
     public PostImagePresenter(@NonNull ImageRepository imageRepository,

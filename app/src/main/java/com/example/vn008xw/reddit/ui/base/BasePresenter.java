@@ -1,10 +1,12 @@
 package com.example.vn008xw.reddit.ui.base;
 
+import android.support.annotation.VisibleForTesting;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public class BasePresenter<T extends BaseView> implements BasePresenterContract<T> {
 
-    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    public CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     private T mView;
 
