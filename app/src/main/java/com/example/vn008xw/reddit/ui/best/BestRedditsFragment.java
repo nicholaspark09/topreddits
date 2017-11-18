@@ -67,7 +67,6 @@ public class BestRedditsFragment extends BaseFragment<BestRedditsContract.Presen
             }
         });
         mBinding.recyclerView.setAdapter(mAdapter);
-        ItemDecorationUtil.setStandardDecoration(mBinding.recyclerView);
         mBinding.recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

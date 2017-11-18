@@ -15,4 +15,8 @@
     <dimen name="elevation_card">2dp</dimen>
     <dimen name="elevation_menu">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Radius -->
+    <dimen name="radius_small">2dp</dimen>
+    <dimen name="radius_default">4dp</dimen>
 </resources>

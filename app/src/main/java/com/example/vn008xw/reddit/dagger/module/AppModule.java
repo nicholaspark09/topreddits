@@ -41,6 +41,6 @@ public class AppModule {
     @AppScope
     @Named("AppName")
     String provideAppName(Application application) {
-        return application.getApplicationInfo().name;
+        return "Redditer";
     }
 }

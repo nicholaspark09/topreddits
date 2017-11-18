@@ -7,10 +7,10 @@ import android.widget.ImageView;
 
 import com.example.vn008xw.reddit.data.vo.RedditDataChild;
 import com.example.vn008xw.reddit.data.vo.RedditPost;
-import com.example.vn008xw.reddit.databinding.ListItemRedditPostBinding;
+import com.example.vn008xw.reddit.databinding.RedditPostCardBinding;
 import com.example.vn008xw.reddit.view.DataBoundAdapter;
 
-public class RedditListAdapter extends DataBoundAdapter<RedditDataChild, ListItemRedditPostBinding> {
+public class RedditListAdapter extends DataBoundAdapter<RedditDataChild, RedditPostCardBinding> {
 
     private static final String KEY_IN_THUMB = "http";
 
@@ -22,9 +22,9 @@ public class RedditListAdapter extends DataBoundAdapter<RedditDataChild, ListIte
     }
 
     @Override
-    protected ListItemRedditPostBinding createBinding(ViewGroup parent) {
-        final ListItemRedditPostBinding binding =
-                ListItemRedditPostBinding.inflate(LayoutInflater.from(parent.getContext()));
+    protected RedditPostCardBinding createBinding(ViewGroup parent) {
+        final RedditPostCardBinding binding =
+                RedditPostCardBinding.inflate(LayoutInflater.from(parent.getContext()));
         binding.imageView.setOnClickListener(v -> {
             final RedditPost post = binding.getPost();
             if (post != null && post.getThumbnail() != null && post.getThumbnail().contains(KEY_IN_THUMB)) {
@@ -37,7 +37,7 @@ public class RedditListAdapter extends DataBoundAdapter<RedditDataChild, ListIte
     }
 
     @Override
-    protected void bind(ListItemRedditPostBinding binding, RedditDataChild item) {
+    protected void bind(RedditPostCardBinding binding, RedditDataChild item) {
         binding.setPost(item.getRedditPost());
     }
 

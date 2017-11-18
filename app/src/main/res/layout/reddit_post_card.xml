@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <import type="android.view.View"/>
+        <import type="android.text.TextUtils"/>
+        <import type="com.example.vn008xw.reddit.util.ImageUtil"/>
+        <import type="com.example.vn008xw.reddit.util.TimeUtil"/>
+
+        <variable name="timeAgo" type="String"/>
+        <variable name="post" type="com.example.vn008xw.reddit.data.vo.RedditPost"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_default"
+        android:background="@android:color/white"
+        app:cardCornerRadius="@dimen/radius_default"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/author_text_view"
+                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:text="@{@string/list_item_post_author(post.author)}"
+                android:textColor="@android:color/black"
+                tools:text="By JK Rowling"/>
+
+            <TextView
+                android:id="@+id/time_text_view"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:text="@{TimeUtil.getTimeAgo(post)}"
+                tools:text="3 hours ago"/>
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_below="@+id/time_text_view"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/margin_default"
+                android:elevation="@dimen/elevation_card"
+                android:scaleType="centerCrop"
+                android:transitionName="@string/transition_image"
+                android:visibility="@{ImageUtil.hasImageUrl(post) ? View.VISIBLE : View.GONE, default=gone}"
+                app:imageUrl="@{post.thumbnail}"
+                tools:src="@drawable/ic_no_image"
+                tools:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/title_text_view"
+                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_view"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginStart="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:text="@{post.title.trim()}"
+                android:textAlignment="center"
+                tools:text="the title is really long so we can see how long it really goes down this blah blah blah blah blah"/>
+
+            <TextView
+                android:id="@+id/comments_text_view"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/title_text_view"
+                android:layout_marginEnd="@dimen/margin_default"
+                android:layout_marginTop="@dimen/margin_default"
+                android:drawableEnd="@drawable/ic_refersms"
+                android:drawableTint="@color/colorBlueAccent"
+                android:text="@{@string/list_item_post_comment_count(post.numComments)}"
+                tools:text="1822343242"
+                tools:visibility="visible"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>

@@ -11,13 +11,8 @@
 
         <import type="com.example.vn008xw.reddit.util.TimeUtil"/>
 
-        <variable
-            name="timeAgo"
-            type="String"/>
-
-        <variable
-            name="post"
-            type="com.example.vn008xw.reddit.data.vo.RedditPost"/>
+        <variable name="timeAgo" type="String"/>
+        <variable name="post" type="com.example.vn008xw.reddit.data.vo.RedditPost"/>
     </data>
 
     <!-- Though nested, these linear layouts lack weights which make them more
