@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.vn008xw.reddit.R;
 import com.example.vn008xw.reddit.util.DrawableUtil;
 
@@ -23,6 +24,7 @@ public class ViewBindingAdapter {
         Glide.with(imageView.getContext())
                 .load(url)
                 .error(DrawableUtil.getDrawable(imageView.getContext(), R.drawable.ic_no_image))
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(imageView);
     }
 

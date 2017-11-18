@@ -20,74 +20,75 @@
             type="com.example.vn008xw.reddit.data.vo.RedditPost"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <!-- Though nested, these linear layouts lack weights which make them more
+            efficient than relative layouts -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_large"
-        android:background="@android:color/white"
+        android:orientation="horizontal"
         android:padding="@dimen/margin_default">
 
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="@dimen/thumbnail_width"
             android:layout_height="@dimen/thumbnail_height"
-            android:layout_marginTop="@dimen/margin_default"
+            android:layout_gravity="center_vertical"
             android:elevation="@dimen/elevation_card"
             android:scaleType="centerCrop"
             android:transitionName="@string/transition_image"
             app:imageUrl="@{post.thumbnail}"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_no_image"/>
 
-        <TextView
-            android:id="@+id/title_text_view"
-            style="@style/TextAppearance.AppCompat.Title"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_default"
-            android:text="@{post.title}"
-            app:layout_constraintLeft_toRightOf="@+id/image_view"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_default="wrap"
-            tools:text="the title is really long so we can see how long it really goes down this blah blah blah blah blah"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/author_text_view"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_default"
-            android:layout_marginTop="@dimen/margin_default"
-            android:text="@{@string/list_item_post_author(post.author)}"
-            app:layout_constraintLeft_toLeftOf="@+id/title_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/title_text_view"
-            app:layout_constraintWidth_default="wrap"
-            tools:text="Author: JK Rowling"/>
+            <TextView
+                android:id="@+id/title_text_view"
+                style="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_default"
+                android:text="@{post.title.trim()}"
+                tools:text="the title is really long so we can see how long it really goes down this blah blah blah blah blah"/>
 
-        <TextView
-            android:id="@+id/comments_text_view"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:text="@{@string/list_item_post_comment_count(post.numComments)}"
-            app:layout_constraintLeft_toLeftOf="@+id/author_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/author_text_view"
-            app:layout_constraintWidth_default="wrap"
-            tools:text="Comments: 182"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginStart="@dimen/margin_default"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/time_text_view"
-            style="@style/TextAppearance.AppCompat.Subhead"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:text="@{TimeUtil.getTimeAgo(post)}"
-            app:layout_constraintLeft_toLeftOf="@+id/comments_text_view"
-            app:layout_constraintTop_toBottomOf="@+id/comments_text_view"
-            app:layout_constraintWidth_default="wrap"
-            tools:text="3 hours ago"/>
-    </android.support.constraint.ConstraintLayout>
+                <TextView
+                    android:id="@+id/author_text_view"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{post.author.trim()}"
+                    android:textColor="@android:color/black"
+                    tools:text="By JK Rowling"/>
+
+                <TextView
+                    android:id="@+id/time_text_view"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:text="@{TimeUtil.getTimeAgo(post)}"
+                    tools:text="3 hours ago"/>
+
+                <TextView
+                    android:id="@+id/comments_text_view"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:drawableRight="@drawable/ic_refersms"
+                    android:text="@{@string/list_item_post_comment_count(post.numComments).trim()}"
+                    tools:text="1822343242"
+                    tools:visibility="visible"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </layout>

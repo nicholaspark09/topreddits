@@ -25,6 +25,8 @@ import com.example.vn008xw.reddit.util.ItemDecorationUtil;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class BestRedditsFragment extends BaseFragment<BestRedditsContract.Presenter>
         implements BestRedditsContract.View {
 
@@ -91,8 +93,9 @@ public class BestRedditsFragment extends BaseFragment<BestRedditsContract.Presen
 
     @Override
     public void showImage(@NonNull RedditPost post, @NonNull ImageView imageView) {
+        Timber.d("The url is: " + post.getUrl() + " and the thumb is: " + post.getThumbnail());
         final Intent intent =
-                PostImageActivity.createIntent(getActivity(), post.getThumbnail(), post.getId());
+                PostImageActivity.createIntent(getActivity(), post.getUrl(), post.getThumbnail(), post.getId());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             startActivity(intent,

@@ -13,10 +13,12 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.transition.Transition;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -29,6 +31,7 @@ import com.example.vn008xw.reddit.util.PermissionsActivityHelper;
 import com.example.vn008xw.reddit.util.PermissionsHelperContract;
 
 import dagger.android.AndroidInjection;
+import timber.log.Timber;
 
 public class PostImageActivity
         extends BaseActivity<PostImageContract.Presenter>
@@ -36,9 +39,14 @@ public class PostImageActivity
         PermissionsHelperContract.Callback {
 
     private static final String ARG_IMAGE_URL = "arg:image_url";
+    private static final String ARG_THUMB_URL = "arg:thumb_url";
     private static final String ARG_POST_ID = "arg:post_id";
     private static final String DISK_WRITE_PERMISSION = Manifest.permission.WRITE_EXTERNAL_STORAGE;
     private static final String URI_SCHEME = "package";
+
+    // Forcing the image into a smaller frame decreases the memory needed to retain it
+    private static final int HEIGHT = 400;
+    private static final int WIDTH = 350;
 
     @Nullable
     private ActivityPostImageBinding mBinding;
@@ -49,14 +57,18 @@ public class PostImageActivity
     @NonNull
     private String mPostId = "";
     @NonNull
+    private String mThumbUrl = "";
+    @NonNull
     private final PermissionsActivityHelper mPermissionsHelper = PermissionsActivityHelper.newInstance(this);
     private boolean mTransitionStarted = false;
 
     public static Intent createIntent(@NonNull Context context,
                                       @NonNull String url,
+                                      @NonNull String thumburl,
                                       @NonNull String id) {
         return new Intent(context, PostImageActivity.class)
                 .putExtra(ARG_IMAGE_URL, url)
+                .putExtra(ARG_THUMB_URL, thumburl)
                 .putExtra(ARG_POST_ID, id);
     }
 
@@ -72,11 +84,23 @@ public class PostImageActivity
         }
         mImageUrl = getIntent().getStringExtra(ARG_IMAGE_URL);
         mPostId = getIntent().getStringExtra(ARG_POST_ID);
+        mThumbUrl = getIntent().getStringExtra(ARG_THUMB_URL);
         mBinding.setLoading(true);
         mBinding.setIsSaved(false);
+        loadThumbnail();
+        getPresenter().start(mPostId);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startLargeImage();
+        }
+    }
+
+    private void loadThumbnail() {
+        // We should already have a cached version
         Glide.with(this)
-                .load(mImageUrl)
+                .load(mThumbUrl)
                 .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .error(DrawableUtil.getDrawable(this, R.drawable.ic_no_image))
                 .into(new ViewTarget<ImageView, GlideDrawable>(mBinding.imageView) {
                     @Override
@@ -87,6 +111,7 @@ public class PostImageActivity
                             getView().setImageBitmap(bitmap);
                             checkAndStartTransition();
                             mBinding.saveIndicator.setOnClickListener(v -> {
+                                Timber.d("Clicked on image");
                                 if (mBinding.getIsSaved()) {
                                     getPresenter().deleteImage();
                                 } else {
@@ -97,7 +122,69 @@ public class PostImageActivity
                         }
                     }
                 });
-        getPresenter().start(mPostId);
+    }
+
+    private void loadLargeImage() {
+        Glide.with(this)
+                .load(mImageUrl)
+                .fitCenter()
+                .override(WIDTH, HEIGHT)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .error(DrawableUtil.getDrawable(this, R.drawable.ic_no_image))
+                .into(new ViewTarget<ImageView, GlideDrawable>(mBinding.imageView) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        if (resource instanceof GlideBitmapDrawable) {
+                            mBinding.setLoading(false);
+                            final Bitmap bitmap = ((GlideBitmapDrawable) resource).getBitmap();
+                            getView().setImageBitmap(bitmap);
+                            mBinding.saveIndicator.setOnClickListener(v -> {
+                                Timber.d("Clicked on image");
+                                if (mBinding.getIsSaved()) {
+                                    getPresenter().deleteImage();
+                                } else {
+                                    mBitmap = bitmap;
+                                    mPermissionsHelper.makeRequest(DISK_WRITE_PERMISSION);
+                                }
+                            });
+                        }
+                    }
+                });
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void startLargeImage() {
+        getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                loadLargeImage();
+            }
+
+            @Override
+            public void onTransitionCancel(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(Transition transition) {
+
+            }
+        });
+    }
+
+    @Override
+    public boolean isActivityTransitionRunning() {
+        return super.isActivityTransitionRunning();
     }
 
     @Override
