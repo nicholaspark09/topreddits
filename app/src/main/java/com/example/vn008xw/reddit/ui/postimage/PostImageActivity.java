@@ -31,7 +31,6 @@ import com.example.vn008xw.reddit.util.PermissionsActivityHelper;
 import com.example.vn008xw.reddit.util.PermissionsHelperContract;
 
 import dagger.android.AndroidInjection;
-import timber.log.Timber;
 
 public class PostImageActivity
         extends BaseActivity<PostImageContract.Presenter>
@@ -89,36 +88,38 @@ public class PostImageActivity
         mBinding.setIsSaved(false);
         loadThumbnail();
         getPresenter().start(mPostId);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            startLargeImage();
-        }
     }
 
     private void loadThumbnail() {
-        // We should already have a cached version
+        // A cached version should already be in memory so this call will be quick
         Glide.with(this)
                 .load(mThumbUrl)
                 .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .override(WIDTH, HEIGHT)
                 .error(DrawableUtil.getDrawable(this, R.drawable.ic_no_image))
                 .into(new ViewTarget<ImageView, GlideDrawable>(mBinding.imageView) {
                     @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    public void onResourceReady(GlideDrawable resource,
+                                                GlideAnimation<? super GlideDrawable> glideAnimation) {
                         if (resource instanceof GlideBitmapDrawable) {
                             mBinding.setLoading(false);
                             final Bitmap bitmap = ((GlideBitmapDrawable) resource).getBitmap();
                             getView().setImageBitmap(bitmap);
+
+                            // The transition should only happen on the lower quality image as it
+                            // is already cached
                             checkAndStartTransition();
-                            mBinding.saveIndicator.setOnClickListener(v -> {
-                                Timber.d("Clicked on image");
-                                if (mBinding.getIsSaved()) {
-                                    getPresenter().deleteImage();
-                                } else {
-                                    mBitmap = bitmap;
-                                    mPermissionsHelper.makeRequest(DISK_WRITE_PERMISSION);
-                                }
-                            });
+                            mBinding.saveIndicator.setOnClickListener(v ->
+                                    saveButtonClicked(!mBinding.getIsSaved(), bitmap)
+                            );
+
+                            // Transitions aren't available before lollipop so those devices
+                            // will need to load the large image as soon as the thumbnail has loaded
+                            // On Lollipop+ the large image will start loading after the transition has
+                            // finished to avoid any jerkiness
+                            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+                                startLargeImage();
+                            }
                         }
                     }
                 });
@@ -133,20 +134,16 @@ public class PostImageActivity
                 .error(DrawableUtil.getDrawable(this, R.drawable.ic_no_image))
                 .into(new ViewTarget<ImageView, GlideDrawable>(mBinding.imageView) {
                     @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    public void onResourceReady(GlideDrawable resource,
+                                                GlideAnimation<? super GlideDrawable> glideAnimation) {
                         if (resource instanceof GlideBitmapDrawable) {
                             mBinding.setLoading(false);
                             final Bitmap bitmap = ((GlideBitmapDrawable) resource).getBitmap();
                             getView().setImageBitmap(bitmap);
-                            mBinding.saveIndicator.setOnClickListener(v -> {
-                                Timber.d("Clicked on image");
-                                if (mBinding.getIsSaved()) {
-                                    getPresenter().deleteImage();
-                                } else {
-                                    mBitmap = bitmap;
-                                    mPermissionsHelper.makeRequest(DISK_WRITE_PERMISSION);
-                                }
-                            });
+
+                            mBinding.saveIndicator.setOnClickListener(v ->
+                                    saveButtonClicked(!mBinding.getIsSaved(), bitmap)
+                            );
                         }
                     }
                 });
@@ -188,7 +185,9 @@ public class PostImageActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         mPermissionsHelper.onPermissionRequestResult(requestCode, permissions, grantResults);
     }
 
@@ -197,6 +196,15 @@ public class PostImageActivity
         if (!mTransitionStarted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             supportStartPostponedEnterTransition();
             mTransitionStarted = true;
+        }
+    }
+
+    private void saveButtonClicked(boolean saveImage, @NonNull Bitmap bitmap) {
+        if (saveImage) {
+            getPresenter().deleteImage();
+        } else {
+            mBitmap = bitmap;
+            mPermissionsHelper.makeRequest(DISK_WRITE_PERMISSION);
         }
     }
 

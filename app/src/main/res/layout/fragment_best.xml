@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         tools:context="com.example.vn008xw.reddit.ui.best.BestRedditsFragment">
 
+        <!-- List of reddit posts -->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
@@ -26,6 +27,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+        <!-- End List -->
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -37,6 +39,5 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible"/>
-
     </android.support.constraint.ConstraintLayout>
 </layout>
