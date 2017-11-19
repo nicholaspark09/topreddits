@@ -23,5 +23,5 @@
     <dimen name="radius_default">4dp</dimen>
 
     <!-- AppBar -->
-    <dimen name="appbar_post_details">250dp</dimen>
+    <dimen name="appbar_post_details">300dp</dimen>
 </resources>

@@ -18,7 +18,6 @@ import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.schedulers.TestScheduler;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -29,15 +28,14 @@ public class BestPresenterTest {
 
     private static final String AFTER_KEY = "12w233";
 
-    @Mock
-    private RedditRepository redditRepository;
+    @Mock private BestRedditsContract.View view;
+    @Mock private RedditRepository redditRepository;
     private Scheduler ioThread;
     private Scheduler mainThread;
-    @Mock
-    private BestRedditsContract.View view;
+
     private BestRedditsPresenter presenter;
 
-    private static final RedditData REDDIT_DATA = TestUtil.getMockRedditData(AFTER_KEY);
+    private static final RedditData REDDIT_DATA = TestUtil.createMockRedditData(AFTER_KEY);
 
     @Before
     public void setupPresenterTest() {
@@ -56,13 +54,13 @@ public class BestPresenterTest {
         setupEntryResponses(afterKey);
         presenter.getPosts(afterKey);
         verify(redditRepository).getEntries(afterKey, 10);
-//        assertEquals(REDDIT_DATA.getChildren().size(), presenter.mPosts.size());
-//        assertEquals(AFTER_KEY, presenter.mMostRecentAfter);
+        assertEquals(REDDIT_DATA.getChildren().size(), presenter.mPosts.size());
+        assertEquals(AFTER_KEY, presenter.mMostRecentAfter);
     }
 
     @Test
     public void openImage_NoImage_showNoImage() {
-        final RedditPost post = TestUtil.getRedditPost("1232");
+        final RedditPost post = TestUtil.createRedditPost("1232");
         post.setThumbnail("");
         presenter.openImage(post, mock(ImageView.class));
         verify(view).showNoImage();
@@ -71,14 +69,14 @@ public class BestPresenterTest {
     @Test
     public void openImageWithUrl_showImage() {
         final ImageView imageView = mock(ImageView.class);
-        final RedditPost post = TestUtil.getRedditPost("111");
+        final RedditPost post = TestUtil.createRedditPost("111");
         presenter.openImage(post, imageView);
         verify(view).showImage(post, imageView);
     }
 
     @Test
     public void openRedditDetail_cacheInRepository_showRedditDetail() {
-        final RedditPost post = TestUtil.getRedditPost("111");
+        final RedditPost post = TestUtil.createRedditPost("111");
         final ImageView imageView = mock(ImageView.class);
         final TextView titleView = mock(TextView.class);
         final TextView authorView = mock(TextView.class);
@@ -97,6 +95,23 @@ public class BestPresenterTest {
         verify(redditRepository).refresh();
         assertEquals(0, presenter.mPosts.size());
         assertEquals("", presenter.mMostRecentAfter);
+    }
+
+    @Test
+    public void getPosts_exception_showMessage() {
+        when(redditRepository.getEntries(AFTER_KEY, 10))
+                .thenReturn(Observable.error(new Exception("Ruh roh")));
+        presenter.getPosts(AFTER_KEY);
+        verify(view).showError("Couldn't get anything: Ruh roh");
+    }
+
+    @Test
+    public void getNextGroupOfPosts_searchesMostRecentAfterKey() {
+        final String TEST_KEY = "101010";
+        presenter.mMostRecentAfter = TEST_KEY;
+        setupEntryResponses(TEST_KEY);
+        presenter.getNextGroupOfPosts();
+        verify(redditRepository).getEntries(TEST_KEY, 10);
     }
 
     private void setupEntryResponses(@NonNull String afterKey) {

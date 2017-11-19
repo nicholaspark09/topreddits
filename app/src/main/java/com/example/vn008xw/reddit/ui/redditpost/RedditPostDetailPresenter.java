@@ -18,18 +18,10 @@ public class RedditPostDetailPresenter
 
     @NonNull
     private final RedditRepository mRedditRepository;
-    @NonNull
-    private final Scheduler mIoThread;
-    @NonNull
-    private final Scheduler mMainThread;
 
     @Inject
-    public RedditPostDetailPresenter(@NonNull RedditRepository redditRepository,
-                                     @NonNull @Named("IoThread") Scheduler ioThread,
-                                     @NonNull @Named("MainThread") Scheduler mainThread) {
+    public RedditPostDetailPresenter(@NonNull RedditRepository redditRepository) {
         mRedditRepository = redditRepository;
-        mIoThread = ioThread;
-        mMainThread = mainThread;
     }
 
     @Override

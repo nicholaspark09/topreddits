@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name=".ui.redditpost.RedditPostDetailActivity"
-            android:label="@string/title_activity_reddit_post_detail"
+            android:label="@string/reddit_post_title"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
