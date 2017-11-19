@@ -10,6 +10,7 @@ public interface PostImageContract {
 
     interface View extends BaseView {
         void showSavedStatus(boolean isSaved);
+        void showImageNotSaved();
     }
 
     interface Presenter extends BasePresenterContract<View> {

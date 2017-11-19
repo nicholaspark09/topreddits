@@ -3,6 +3,7 @@ package com.example.vn008xw.reddit.data.reddit;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import com.example.vn008xw.reddit.dagger.Remote;
 import com.example.vn008xw.reddit.data.vo.RedditData;
@@ -17,13 +18,18 @@ import io.reactivex.Observable;
 public class RedditRepository implements RedditDataSource {
 
     @NonNull
-    private final RedditDataSource mRemoteSource;
+    @VisibleForTesting
+    final RedditDataSource mRemoteSource;
+
     @NonNull
-    private final HashMap<String, RedditData> mCache = new HashMap<>();
+    @VisibleForTesting
+    final HashMap<String, RedditData> mCache = new HashMap<>();
 
     @Nullable
-    private RedditPost mCachedPost;
-    private boolean mCacheIsDirty = false;
+    @VisibleForTesting
+    RedditPost mCachedPost;
+
+    @VisibleForTesting boolean mCacheIsDirty = false;
 
     @Inject
     public RedditRepository(@Remote RedditDataSource dataSource) {

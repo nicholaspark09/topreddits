@@ -56,7 +56,7 @@ public class PostImagePresenter
                                 isSaved ->
                                         getView().showSavedStatus(isSaved),
                                 error ->
-                                        Timber.e(error, "Exception: " + error.getLocalizedMessage())
+                                        Timber.e(error, error.getLocalizedMessage())
                         );
         mCompositeDisposable.add(disposable);
     }
@@ -75,7 +75,7 @@ public class PostImagePresenter
                                 },
                                 error -> {
                                     Timber.e("Exception: " + error.getLocalizedMessage());
-                                    getView().showError("Sorry, no luck. Please try again.");
+                                    getView().showImageNotSaved();
                                 }
                         );
         mCompositeDisposable.add(disposable);

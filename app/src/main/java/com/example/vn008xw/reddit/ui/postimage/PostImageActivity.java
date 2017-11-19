@@ -1,19 +1,16 @@
 package com.example.vn008xw.reddit.ui.postimage;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.transition.Transition;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,7 +26,6 @@ import com.example.vn008xw.reddit.ui.base.BaseActivity;
 import com.example.vn008xw.reddit.util.DrawableUtil;
 import com.example.vn008xw.reddit.util.PermissionsActivityHelper;
 import com.example.vn008xw.reddit.util.PermissionsHelperContract;
-import com.example.vn008xw.reddit.util.VersionUtil;
 
 import dagger.android.AndroidInjection;
 
@@ -60,7 +56,6 @@ public class PostImageActivity
     private String mThumbUrl = "";
     @NonNull
     private final PermissionsActivityHelper mPermissionsHelper = PermissionsActivityHelper.newInstance(this);
-    private boolean mTransitionStarted = false;
 
     public static Intent createIntent(@NonNull Context context,
                                       @NonNull String url,
@@ -77,11 +72,6 @@ public class PostImageActivity
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_post_image);
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        // Need to postpone transitions until the image has loaded
-        // This only applies to versions lollipop and above
-        if (VersionUtil.isLollipopOrHigher()) {
-            supportPostponeEnterTransition();
-        }
         mImageUrl = getIntent().getStringExtra(ARG_IMAGE_URL);
         mPostId = getIntent().getStringExtra(ARG_POST_ID);
         mThumbUrl = getIntent().getStringExtra(ARG_THUMB_URL);
@@ -107,20 +97,10 @@ public class PostImageActivity
                             final Bitmap bitmap = ((GlideBitmapDrawable) resource).getBitmap();
                             getView().setImageBitmap(bitmap);
 
-                            // The transition should only happen on the lower quality image as it
-                            // is already cached
-                            checkAndStartTransition();
                             mBinding.saveIndicator.setOnClickListener(v ->
                                     saveButtonClicked(!mBinding.getIsSaved(), bitmap)
                             );
-
-                            // Transitions aren't available before lollipop so those devices
-                            // will need to load the large image as soon as the thumbnail has loaded
-                            // On Lollipop+ the large image will start loading after the transition has
-                            // finished to avoid any jerkiness
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                                startLargeImage();
-                            }
+                            loadLargeImage();
                         }
                     }
                 });
@@ -150,36 +130,6 @@ public class PostImageActivity
                 });
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void startLargeImage() {
-        getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
-            @Override
-            public void onTransitionStart(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionEnd(Transition transition) {
-                loadLargeImage();
-            }
-
-            @Override
-            public void onTransitionCancel(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionPause(Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionResume(Transition transition) {
-
-            }
-        });
-    }
-
     @Override
     public boolean isActivityTransitionRunning() {
         return super.isActivityTransitionRunning();
@@ -190,14 +140,6 @@ public class PostImageActivity
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         mPermissionsHelper.onPermissionRequestResult(requestCode, permissions, grantResults);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void checkAndStartTransition() {
-        if (!mTransitionStarted && VersionUtil.isLollipopOrHigher()) {
-            supportStartPostponedEnterTransition();
-            mTransitionStarted = true;
-        }
     }
 
     private void saveButtonClicked(boolean saveImage, @NonNull Bitmap bitmap) {
@@ -226,6 +168,11 @@ public class PostImageActivity
         if (isSaved && mBitmap != null) {
             mBitmap = null;
         }
+    }
+
+    @Override
+    public void showImageNotSaved() {
+        showError(getString(R.string.post_activity_image_error));
     }
 
     @Override

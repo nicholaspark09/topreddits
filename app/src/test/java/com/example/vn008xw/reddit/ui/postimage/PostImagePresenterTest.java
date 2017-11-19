@@ -26,10 +26,9 @@ public class PostImagePresenterTest {
 
     private static final String POST_ID = "19292";
 
-    @Mock
-    private ImageRepository imageRepository;
-    @Mock
-    private PostImageContract.View view;
+    @Mock private ImageRepository imageRepository;
+    @Mock private PostImageContract.View view;
+    @Mock private Bitmap bitmap;
     private Scheduler thread;
     private Scheduler mainThread;
     private PostImagePresenter presenter;
@@ -61,7 +60,6 @@ public class PostImagePresenterTest {
 
     @Test
     public void saveImage_getUrl() {
-        final Bitmap bitmap = mock(Bitmap.class);
         when(imageRepository.saveImage(bitmap)).thenReturn(Observable.just(""));
         presenter.saveImage(bitmap);
         verify(imageRepository).saveImage(bitmap);
@@ -71,5 +69,14 @@ public class PostImagePresenterTest {
     public void deleteImage_deletedImage() {
         presenter.deleteImage();
         verify(imageRepository).deleteImage();
+    }
+
+    // Test exceptions and errors
+    @Test
+    public void saveImage_getError() {
+        when(imageRepository.saveImage(bitmap))
+                .thenReturn(Observable.error(new Exception("")));
+        presenter.saveImage(bitmap);
+        verify(view).showImageNotSaved();
     }
 }
